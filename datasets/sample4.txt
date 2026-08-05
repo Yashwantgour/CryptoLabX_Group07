@@ -1,1 +1,2 @@
-
+AES is a symmetric encryption algorithm.
+RSA is an asymmetric encryption algorithm used for secure communication.
