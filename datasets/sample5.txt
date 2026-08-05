@@ -1,1 +1,2 @@
-
+CryptoLabX is a cryptography laboratory project.
+These sample files will be used for future encryption and analysis assignments.
