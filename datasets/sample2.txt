@@ -1,1 +1,2 @@
-
+Cryptography is the science of securing communication.
+Encryption converts plaintext into ciphertext.
