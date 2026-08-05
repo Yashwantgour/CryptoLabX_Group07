@@ -1,1 +1,2 @@
-
+The Caesar cipher shifts each letter by a fixed number.
+It is one of the oldest classical encryption techniques.
