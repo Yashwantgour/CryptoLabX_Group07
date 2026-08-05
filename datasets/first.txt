@@ -1,0 +1,5 @@
+Cryptography is the science of protecting information.
+
+This project is CryptoLabX.
+
+Students will implement many algorithms during the semester.
