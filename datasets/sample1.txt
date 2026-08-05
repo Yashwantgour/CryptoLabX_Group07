@@ -1,1 +1,2 @@
-
+The quick brown fox jumps over the lazy dog.
+This dataset is used for testing character frequency analysis.
