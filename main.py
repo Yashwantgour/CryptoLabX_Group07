@@ -1,4 +1,15 @@
 import os
+import logging
+import os
+
+os.makedirs("outputs", exist_ok=True)
+
+logging.basicConfig(
+    filename="outputs/cryptolabx.log",
+    level=logging.INFO,
+    format="%(asctime)s - %(message)s",
+    datefmt="%d-%m-%Y %H:%M:%S"
+)
 
 def analyze_file():
     filename = input("Enter file name (example: sample1.txt): ")
@@ -52,18 +63,22 @@ while True:
     choice = input("Enter your choice: ")
 
     if choice == "1":
+        logging.info("Selected Option: Encrypt")
         print("Encrypt Module - Coming Soon")
 
     elif choice == "2":
+        logging.info("Selected Option: Decrypt")
         print("Decrypt Module - Coming Soon")
 
     elif choice == "3":
+        logging.info("Selected Option: Attack")
         print("Attack Module - Coming Soon")
 
     elif choice == "4":
-        # print("Analyze Module - Coming Soon")
+        logging.info("Selected Option: Analyze")
         analyze_file()
     elif choice == "5":
+        logging.info("Selected Option: Exit")
         print("Thank you for using CryptoLabX.")
         break
 
