@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+
+{% block title %}
+Profile - Student Portal
+{% endblock %}
+
+{% block content %}
+
+<h1>Student Profile</h1>
+
+<div class="card">
+
+    <h2>
+        {{ user["name"] }}
+    </h2>
+
+    <p>
+        <strong>Username:</strong>
+        {{ user["username"] }}
+    </p>
+
+    <p>
+        <strong>Email:</strong>
+        {{ user["email"] }}
+    </p>
+
+    <h3>Bio</h3>
+
+    <!--
+        Intentionally unsafe rendering for the
+        controlled XSS demonstration.
+    -->
+
+    <div class="bio">
+        {{ user["bio"]|safe }}
+    </div>
+
+</div>
+
+
+<div class="card">
+
+    <h2>Update Profile</h2>
+
+    <form
+        method="POST"
+        action="{{ url_for(
+            'update_profile',
+            user_id=user['id']
+        ) }}"
+    >
+
+        <label for="name">
+            Full Name
+        </label>
+
+        <input
+            id="name"
+            type="text"
+            name="name"
+            value="{{ user['name'] }}"
+            required
+        >
+
+        <label for="email">
+            Email
+        </label>
+
+        <input
+            id="email"
+            type="email"
+            name="email"
+            value="{{ user['email'] }}"
+            required
+        >
+
+        <label for="bio">
+            Bio
+        </label>
+
+        <textarea
+            id="bio"
+            name="bio"
+            rows="6"
+            placeholder="Write something about yourself..."
+        >{{ user["bio"] }}</textarea>
+
+        <button type="submit">
+            Update Profile
+        </button>
+
+    </form>
+
+</div>
+
+{% endblock %}

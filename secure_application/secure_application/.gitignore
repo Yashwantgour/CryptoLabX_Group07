@@ -1,0 +1,17 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Virtual environment
+.venv/
+
+# Local database
+src/*.db
+
+# SAST generated output
+sast/results/*.json
+
+# OS files
+.DS_Store
+Thumbs.db

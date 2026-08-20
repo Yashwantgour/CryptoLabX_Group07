@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+{% block title %}
+Login - Student Portal
+{% endblock %}
+
+{% block content %}
+
+<div class="login-container">
+
+    <div class="card">
+
+        <h1>Student Portal</h1>
+
+        <p class="subtitle">
+            Student Management System
+        </p>
+
+        <h2>Login</h2>
+
+        <form method="POST">
+
+            <label for="username">
+                Username
+            </label>
+
+            <input
+                id="username"
+                type="text"
+                name="username"
+                placeholder="Enter username"
+                required
+            >
+
+            <label for="password">
+                Password
+            </label>
+
+            <input
+                id="password"
+                type="password"
+                name="password"
+                placeholder="Enter password"
+                required
+            >
+
+            <button type="submit">
+                Login
+            </button>
+
+        </form>
+
+        <div class="demo-accounts">
+
+            <h3>Demo Accounts</h3>
+
+            <p>
+                <strong>Alice</strong>
+            </p>
+
+            <p>
+                Username: alice<br>
+                Password: alice123
+            </p>
+
+            <p>
+                <strong>Bob</strong>
+            </p>
+
+            <p>
+                Username: bob<br>
+                Password: bob123
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
