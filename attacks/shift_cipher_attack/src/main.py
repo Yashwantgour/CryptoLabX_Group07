@@ -7,8 +7,14 @@ import os
 def main():
     dict_path = os.path.join(os.path.dirname(__file__), '..', 'dictionary', 'english_words.txt')
     
-    plaintext = "This is a secret message used to test the shift cipher attacks using dictionary and chi square methods."
-    key = 7
+    print("=== Shift Cipher Cryptanalysis ===")
+    plaintext = input("Enter a secret message (plaintext): ")
+    try:
+        key = int(input("Enter a shift key (1-25): "))
+    except ValueError:
+        print("Invalid key! Defaulting to key = 7.")
+        key = 7
+        
     ciphertext = encrypt(plaintext, key)
     
     print(f"Original Text: {plaintext}")
