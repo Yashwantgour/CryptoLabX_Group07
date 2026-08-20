@@ -1,389 +1,181 @@
-from flask import (
-    Flask,
-    flash,
-    redirect,
-    render_template,
-    request,
-    session,
-    url_for,
-)
-from werkzeug.security import check_password_hash
+import sqlite3
+import os
 
-from src.database import get_connection, initialize_database
+# Database setup
+DB_FILE = "student_portal.db"
 
+def init_db():
+    conn = sqlite3.connect(DB_FILE)
+    cursor = conn.cursor()
+    
+    # Create tables
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS users (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            username TEXT UNIQUE,
+            password TEXT,
+            role TEXT,
+            profile_info TEXT
+        )
+    ''')
+    
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS courses (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            course_name TEXT
+        )
+    ''')
+    
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS registrations (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            student_id INTEGER,
+            course_id INTEGER
+        )
+    ''')
+    
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS grades (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            student_id INTEGER,
+            course_name TEXT,
+            grade TEXT
+        )
+    ''')
+    
+    # Insert dummy data
+    cursor.execute("INSERT OR IGNORE INTO users (id, username, password, role, profile_info) VALUES (1, 'admin', 'admin123', 'admin', 'System Admin')")
+    cursor.execute("INSERT OR IGNORE INTO users (id, username, password, role, profile_info) VALUES (2, 'alice', 'alice123', 'student', 'First Year CS')")
+    cursor.execute("INSERT OR IGNORE INTO users (id, username, password, role, profile_info) VALUES (3, 'bob', 'bob123', 'student', 'Second Year IT')")
+    
+    cursor.execute("INSERT OR IGNORE INTO courses (id, course_name) VALUES (1, 'Cryptography 101')")
+    cursor.execute("INSERT OR IGNORE INTO courses (id, course_name) VALUES (2, 'Web Security')")
+    
+    cursor.execute("INSERT OR IGNORE INTO grades (student_id, course_name, grade) VALUES (2, 'Cryptography 101', 'A')")
+    cursor.execute("INSERT OR IGNORE INTO grades (student_id, course_name, grade) VALUES (3, 'Web Security', 'B')")
+    
+    conn.commit()
+    conn.close()
 
-app = Flask(__name__)
-
-app.secret_key = "group07-student-portal-lab-key"
-
-initialize_database()
-
-
-# ============================================================
-# LOGIN
-# ============================================================
-
-@app.route("/", methods=["GET", "POST"])
 def login():
-
-    if request.method == "POST":
-
-        username = request.form.get("username", "")
-        password = request.form.get("password", "")
-
-        connection = get_connection()
-
-        # ====================================================
-        # VULNERABILITY 1: SQL INJECTION
-        # ====================================================
-        #
-        # User-controlled username is directly concatenated
-        # into the SQL statement.
-        #
-        # This is intentionally vulnerable for the assignment.
-        # ====================================================
-
-        query = (
-            "SELECT * FROM users "
-            "WHERE username = '" + username + "'"
-        )
-
-        user = connection.execute(query).fetchone()
-
-        connection.close()
-
-        if user and check_password_hash(
-            user["password_hash"],
-            password
-        ):
-            session["user_id"] = user["id"]
-            session["username"] = user["username"]
-
-            return redirect(url_for("dashboard"))
-
-        # Demonstration path for SQL injection:
-        # If SQL injection changes the selected account,
-        # the password check still protects normal logins.
-        # For the assignment, use the injected username with
-        # the known lab password of the selected account.
-
-        flash("Invalid username or password.", "error")
-
-    return render_template("login.html")
-
-
-# ============================================================
-# DASHBOARD
-# ============================================================
-
-@app.route("/dashboard")
-def dashboard():
-
-    if "user_id" not in session:
-        return redirect(url_for("login"))
-
-    connection = get_connection()
-
-    user = connection.execute(
-        """
-        SELECT *
-        FROM users
-        WHERE id = ?
-        """,
-        (session["user_id"],),
-    ).fetchone()
-
-    connection.close()
-
-    return render_template(
-        "dashboard.html",
-        user=user,
-    )
-
-
-# ============================================================
-# COURSES
-# ============================================================
-
-@app.route("/courses")
-def courses():
-
-    if "user_id" not in session:
-        return redirect(url_for("login"))
-
-    connection = get_connection()
-
-    courses = connection.execute(
-        """
-        SELECT *
-        FROM courses
-        ORDER BY code
-        """
-    ).fetchall()
-
-    registrations = connection.execute(
-        """
-        SELECT course_id
-        FROM registrations
-        WHERE user_id = ?
-        """,
-        (session["user_id"],),
-    ).fetchall()
-
-    registered_ids = {
-        row["course_id"]
-        for row in registrations
-    }
-
-    connection.close()
-
-    return render_template(
-        "courses.html",
-        courses=courses,
-        registered_ids=registered_ids,
-    )
-
-
-@app.route("/courses/register/<int:course_id>", methods=["POST"])
-def register_course(course_id):
-
-    if "user_id" not in session:
-        return redirect(url_for("login"))
-
-    connection = get_connection()
-
-    course = connection.execute(
-        """
-        SELECT *
-        FROM courses
-        WHERE id = ?
-        """,
-        (course_id,),
-    ).fetchone()
-
-    if not course:
-        connection.close()
-        return "Course not found", 404
-
+    print("\n--- Student Portal Login ---")
+    username = input("Username: ")
+    password = input("Password: ")
+    
+    conn = sqlite3.connect(DB_FILE)
+    cursor = conn.cursor()
+    
+    # VULNERABILITY 1: SQL Injection
+    # A user can bypass authentication by providing a crafted payload like: ' OR '1'='1' --
+    query = f"SELECT id, username, role FROM users WHERE username = '{username}' AND password = '{password}'"
     try:
-        connection.execute(
-            """
-            INSERT INTO registrations
-            (user_id, course_id)
-            VALUES (?, ?)
-            """,
-            (session["user_id"], course_id),
-        )
+        cursor.execute(query)
+        user = cursor.fetchone()
+        conn.close()
+        return user
+    except sqlite3.Error as e:
+        print(f"Database error: {e}")
+        conn.close()
+        return None
 
-        connection.commit()
-        flash("Course registered successfully.", "success")
+def register_course(user):
+    conn = sqlite3.connect(DB_FILE)
+    cursor = conn.cursor()
+    
+    print("\n--- Register Course ---")
+    cursor.execute("SELECT id, course_name FROM courses")
+    courses = cursor.fetchall()
+    for course in courses:
+        print(f"{course[0]}. {course[1]}")
+        
+    course_id = input("Enter course ID to register: ")
+    
+    cursor.execute("INSERT INTO registrations (student_id, course_id) VALUES (?, ?)", (user[0], course_id))
+    conn.commit()
+    print("Registered successfully!")
+    conn.close()
 
-    except Exception:
-        flash("You are already registered for this course.", "error")
+def view_grades(user):
+    conn = sqlite3.connect(DB_FILE)
+    cursor = conn.cursor()
+    
+    print("\n--- View Grades ---")
+    # VULNERABILITY 2: Insecure Direct Object Reference (IDOR)
+    # The application asks for student ID instead of using the logged-in user's ID
+    # A student can enter another student's ID (e.g., 2 or 3) to view their grades.
+    student_id_input = input(f"Enter Student ID to view grades (Your ID is {user[0]}): ")
+    
+    cursor.execute("SELECT course_name, grade FROM grades WHERE student_id = ?", (student_id_input,))
+    grades = cursor.fetchall()
+    
+    if grades:
+        for grade in grades:
+            print(f"Course: {grade[0]}, Grade: {grade[1]}")
+    else:
+        print("No grades found.")
+        
+    conn.close()
 
-    connection.close()
+def update_profile(user):
+    conn = sqlite3.connect(DB_FILE)
+    cursor = conn.cursor()
+    
+    print("\n--- Update Profile ---")
+    new_info = input("Enter new profile information: ")
+    
+    cursor.execute("UPDATE users SET profile_info = ? WHERE id = ?", (new_info, user[0]))
+    conn.commit()
+    print("Profile updated successfully.")
+    
+    conn.close()
+    
+def admin_panel(user):
+    # VULNERABILITY 3: Broken Access Control
+    # Any user can access this functionality because the caller does not verify the user's role.
+    print("\n--- Admin Panel ---")
+    print("Welcome Admin. Here you can view all users in the system.")
+    conn = sqlite3.connect(DB_FILE)
+    cursor = conn.cursor()
+    cursor.execute("SELECT id, username, role, profile_info FROM users")
+    users = cursor.fetchall()
+    for u in users:
+        print(f"ID: {u[0]}, Username: {u[1]}, Role: {u[2]}, Profile: {u[3]}")
+    conn.close()
 
-    return redirect(url_for("courses"))
-
-
-# ============================================================
-# GRADES
-# ============================================================
-
-@app.route("/grades")
-def grades():
-
-    if "user_id" not in session:
-        return redirect(url_for("login"))
-
-    connection = get_connection()
-
-    grades = connection.execute(
-        """
-        SELECT
-            courses.code,
-            courses.name,
-            grades.grade
-        FROM grades
-        JOIN courses
-            ON grades.course_id = courses.id
-        WHERE grades.user_id = ?
-        ORDER BY courses.code
-        """,
-        (session["user_id"],),
-    ).fetchall()
-
-    connection.close()
-
-    return render_template(
-        "grades.html",
-        grades=grades,
-    )
-
-
-# ============================================================
-# PROFILE
-# ============================================================
-
-@app.route("/profile/<int:user_id>")
-def profile(user_id):
-
-    if "user_id" not in session:
-        return redirect(url_for("login"))
-
-    connection = get_connection()
-
-    # ========================================================
-    # VULNERABILITY 2: IDOR
-    # ========================================================
-    #
-    # The application accepts an arbitrary user_id.
-    #
-    # It does NOT verify that user_id belongs to the logged-in
-    # user.
-    #
-    # Therefore:
-    #
-    # Alice -> /profile/1
-    # Alice -> /profile/2
-    #
-    # can expose Bob's profile.
-    # ========================================================
-
-    user = connection.execute(
-        """
-        SELECT id, username, name, email, bio
-        FROM users
-        WHERE id = ?
-        """,
-        (user_id,),
-    ).fetchone()
-
-    connection.close()
-
-    if not user:
-        return "User not found", 404
-
-    return render_template(
-        "profile.html",
-        user=user,
-    )
-
-
-# ============================================================
-# PROFILE UPDATE
-# ============================================================
-
-@app.route(
-    "/profile/<int:user_id>/update",
-    methods=["POST"],
-)
-def update_profile(user_id):
-
-    if "user_id" not in session:
-        return redirect(url_for("login"))
-
-    name = request.form.get("name", "")
-    email = request.form.get("email", "")
-    bio = request.form.get("bio", "")
-
-    connection = get_connection()
-
-    connection.execute(
-        """
-        UPDATE users
-        SET name = ?,
-            email = ?,
-            bio = ?
-        WHERE id = ?
-        """,
-        (name, email, bio, user_id),
-    )
-
-    connection.commit()
-    connection.close()
-
-    flash("Profile updated.", "success")
-
-    return redirect(
-        url_for(
-            "profile",
-            user_id=user_id,
-        )
-    )
-
-
-# ============================================================
-# XSS DEMONSTRATION
-# ============================================================
-
-@app.route("/search")
-def search():
-
-    search_term = request.args.get("q", "")
-
-    # ========================================================
-    # VULNERABILITY 3: REFLECTED XSS
-    # ========================================================
-    #
-    # User input is inserted into an HTML response without
-    # HTML escaping.
-    # ========================================================
-
-    html = f"""
-    <!DOCTYPE html>
-    <html>
-    <head>
-        <title>Student Portal Search</title>
-        <link
-            rel="stylesheet"
-            href="/static/style.css"
-        >
-    </head>
-
-    <body>
-
-        <div class="container">
-
-            <h1>Student Portal Search</h1>
-
-            <p>
-                Search results for:
-                {search_term}
-            </p>
-
-            <p>
-                No additional results were found.
-            </p>
-
-            <a href="/dashboard">
-                Back to Dashboard
-            </a>
-
-        </div>
-
-    </body>
-    </html>
-    """
-
-    return html
-
-
-# ============================================================
-# LOGOUT
-# ============================================================
-
-@app.route("/logout")
-def logout():
-
-    session.clear()
-
-    return redirect(url_for("login"))
-
+def main():
+    if not os.path.exists(DB_FILE):
+        init_db()
+        
+    print("Welcome to the Student Portal Console Application")
+    user = login()
+    
+    if user:
+        print(f"\nWelcome {user[1]}! Role: {user[2]}")
+        while True:
+            print("\n1. Register Course")
+            print("2. View Grades")
+            print("3. Update Profile")
+            print("4. Admin Panel")
+            print("5. Logout")
+            
+            choice = input("Select an option: ")
+            
+            if choice == '1':
+                register_course(user)
+            elif choice == '2':
+                view_grades(user)
+            elif choice == '3':
+                update_profile(user)
+            elif choice == '4':
+                # No role verification performed! (Broken Access Control)
+                admin_panel(user)
+            elif choice == '5':
+                print("Logging out...")
+                break
+            else:
+                print("Invalid choice.")
+    else:
+        print("Login failed. Invalid username or password.")
 
 if __name__ == "__main__":
-    app.run(
-        host="127.0.0.1",
-        port=5000,
-        debug=False,
-    )
+    main()
