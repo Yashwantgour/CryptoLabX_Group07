@@ -1,0 +1,62 @@
+Script started on Wed Sep 16 23:01:01 2026
+Command: bash -c /Users/kunalsachan/Library/Python/3.9/bin/flawfinder vulnerable.cpp
+Flawfinder version 2.0.20, (C) 2001-2026 David A. Wheeler.
+Number of rules (primarily dangerous function names) in C/C++ ruleset: 222
+Examining vulnerable.cpp
+
+FINAL RESULTS:
+
+vulnerable.cpp:10:  [4] (buffer) strcpy:
+  Does not check for buffer overflows when copying to destination [MS-banned]
+  (CWE-120). Consider using snprintf, strcpy_s, or strlcpy (warning: strncpy
+  easily misused).
+vulnerable.cpp:30:  [4] (buffer) sprintf:
+  Does not check for buffer overflows (CWE-120). Use sprintf_s, snprintf, or
+  vsnprintf.
+vulnerable.cpp:31:  [4] (shell) system:
+  This causes a new program to execute and is difficult to use safely
+  (CWE-78). try using a library call that implements the same functionality
+  if available.
+vulnerable.cpp:8:  [2] (buffer) char:
+  Statically-sized arrays can be improperly restricted, leading to potential
+  overflows or other issues (CWE-119!/CWE-120). Perform bounds checking, use
+  functions that limit length, or ensure that the size is larger than the
+  maximum possible length.
+vulnerable.cpp:21:  [2] (buffer) char:
+  Statically-sized arrays can be improperly restricted, leading to potential
+  overflows or other issues (CWE-119!/CWE-120). Perform bounds checking, use
+  functions that limit length, or ensure that the size is larger than the
+  maximum possible length.
+vulnerable.cpp:24:  [2] (buffer) char:
+  Statically-sized arrays can be improperly restricted, leading to potential
+  overflows or other issues (CWE-119!/CWE-120). Perform bounds checking, use
+  functions that limit length, or ensure that the size is larger than the
+  maximum possible length.
+vulnerable.cpp:29:  [2] (buffer) char:
+  Statically-sized arrays can be improperly restricted, leading to potential
+  overflows or other issues (CWE-119!/CWE-120). Perform bounds checking, use
+  functions that limit length, or ensure that the size is larger than the
+  maximum possible length.
+
+ANALYSIS SUMMARY:
+
+Hits = 7
+Lines analyzed = 36 in approximately 0.00 seconds (15899 lines/second)
+Physical Source Lines of Code (SLOC) = 23
+Hits@level = [0]   0 [1]   0 [2]   4 [3]   0 [4]   3 [5]   0
+Hits@level+ = [0+]   7 [1+]   7 [2+]   7 [3+]   3 [4+]   3 [5+]   0
+Hits/KSLOC@level+ = [0+] 304.348 [1+] 304.348 [2+] 304.348 [3+] 130.435 [4+] 130.435 [5+]   0
+Minimum risk level = 1
+
+Not every hit is necessarily a security vulnerability.
+You can inhibit a report by adding a comment in this form:
+// flawfinder: ignore
+Make *sure* it's a false positive!
+You can use the option --neverignore to show these.
+
+There may be other security vulnerabilities; review your code!
+See 'Secure Programming HOWTO'
+(https://dwheeler.com/secure-programs) for more information.
+
+Command exit status: 0
+Script done on Wed Sep 16 23:01:03 2026
