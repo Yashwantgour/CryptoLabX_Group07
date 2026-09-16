@@ -5,8 +5,8 @@
 - Kunal Sachan
 
 ## Roll Number
-- [Insert Yashwant's Roll Number]
-- [Insert Kunal's Roll Number]
+- 2024ucp1732
+- 2024ucp1547
 
 ## Assigned Application
 - Student Portal (Group 07)
@@ -16,7 +16,7 @@
 - Java
 
 ## SAST Tool
-- SonarQube / Semgrep [Update with your actual SAST tool]
+- Flawfinder
 
 ## Lab Progress Checklist
 - [x] Lab 1: Environment Setup and Git Basics
