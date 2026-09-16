@@ -1,0 +1,7 @@
+venv/
+__pycache__/
+*.pyc
+*.class
+.DS_Store
+student_portal.db
+
