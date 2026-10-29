@@ -74,7 +74,8 @@ def main():
         print("2. Decrypt")
         print("3. Attack")
         print("4. Analyze")
-        print("5. Exit")
+        print("5. Math (Prime Generation)")
+        print("6. Exit")
 
         choice = input("Enter your choice: ")
 
@@ -93,7 +94,14 @@ def main():
         elif choice == "4":
             logging.info("Selected Option: Analyze")
             analyze_menu()
+
         elif choice == "5":
+            logging.info("Selected Option: Math")
+            import subprocess
+            script_path = os.path.join("math", "prime_generation", "src", "miller_rabin.py")
+            subprocess.run([sys.executable, script_path])
+
+        elif choice == "6":
             logging.info("Selected Option: Exit")
             print("Thank you for using CryptoLabX.")
             break
