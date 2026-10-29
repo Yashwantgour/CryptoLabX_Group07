@@ -2,6 +2,10 @@ venv/
 __pycache__/
 *.pyc
 *.class
+*.o
+*.out
+*.exe
 .DS_Store
 student_portal.db
+monoalphabetic_cryptanalysis
 

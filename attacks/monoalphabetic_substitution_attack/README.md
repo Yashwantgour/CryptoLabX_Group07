@@ -2,7 +2,7 @@
 
 ## Implementation Details
 This lab implements the Monoalphabetic Substitution cipher and demonstrates cryptanalysis using Frequency and Pattern Analysis.
-**Language Used:** Java (since Python was explicitly disallowed by the assignment instructions).
+**Language Used:** C++ (as per the requirement to use a language other than Python).
 
 ## Requirements Satisfied
 1. `frequency_analysis()` - Performs letter-frequency analysis on the ciphertext.
@@ -15,17 +15,19 @@ This lab implements the Monoalphabetic Substitution cipher and demonstrates cryp
 ## The Plaintext
 The plaintext used is an excerpt discussing "Perfect Secrecy" (representing content roughly around page 37 of Katz and Lindell's *Modern Cryptography*). 
 
-## How to run
-You must have the Java Development Kit (JDK) installed on your machine.
+## How to run (C++)
+You can compile and run using `g++` / `clang++`:
 1. Open terminal and navigate to `attacks/monoalphabetic_substitution_attack/`.
-2. Compile the file: 
+2. Compile the C++ program:
    ```bash
-   javac src/MonoalphabeticCryptanalysis.java
+   g++ -std=c++11 src/monoalphabetic_cryptanalysis.cpp -o src/monoalphabetic_cryptanalysis
    ```
-3. Run the file:
+3. Run the compiled executable:
    ```bash
-   java -cp src MonoalphabeticCryptanalysis
+   ./src/monoalphabetic_cryptanalysis
    ```
+
+*(Note: The Java implementation `src/MonoalphabeticCryptanalysis.java` is also preserved in `src/` for reference).*
 
 ## Cryptanalysis Table (Notebook Example)
 | Step | Observation | Possible Substitution | Substitution Tested | Result | Decision |
@@ -33,3 +35,4 @@ You must have the Java Development Kit (JDK) installed on your machine.
 | 1 | 'E' occurs most frequently in ciphertext | Cipher E -> Plain E | E->E | Many substitutions useful | Good decision |
 | 2 | "X" is the most common 1-letter word | Cipher X -> Plain A or I | X->A | Makes sense in context | Keep |
 | 3 | "YXZ" is the most common 3-letter word | YXZ -> THE | Y->T, X->H, Z->E | Common english word | Keep |
+
