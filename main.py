@@ -1,6 +1,6 @@
 import os
+import sys
 import logging
-import os
 
 os.makedirs("outputs", exist_ok=True)
 
@@ -52,35 +52,55 @@ def analyze_file():
 
     for letter in sorted(frequency):
         print(letter, ":", frequency[letter])
-while True:
-    print("\n===== CryptoLabX Toolkit =====")
-    print("1. Encrypt")
-    print("2. Decrypt")
-    print("3. Attack")
-    print("4. Analyze")
-    print("5. Exit")
 
-    choice = input("Enter your choice: ")
-
-    if choice == "1":
-        logging.info("Selected Option: Encrypt")
-        print("Encrypt Module - Coming Soon")
-
-    elif choice == "2":
-        logging.info("Selected Option: Decrypt")
-        print("Decrypt Module - Coming Soon")
-
-    elif choice == "3":
-        logging.info("Selected Option: Attack")
-        print("Attack Module - Coming Soon")
-
-    elif choice == "4":
-        logging.info("Selected Option: Analyze")
+def analyze_menu():
+    print("\n===== Analysis Module =====")
+    print("1. Text File Analysis (Datasets)")
+    print("2. OS Random-Number Generation (RNG) Statistical Evaluation")
+    sub_choice = input("Enter choice (1-2): ").strip()
+    if sub_choice == "1":
         analyze_file()
-    elif choice == "5":
-        logging.info("Selected Option: Exit")
-        print("Thank you for using CryptoLabX.")
-        break
-
+    elif sub_choice == "2":
+        import subprocess
+        script_path = os.path.join("analysis", "rng_evaluation", "src", "analyze_rng.py")
+        subprocess.run([sys.executable, script_path])
     else:
-        print("Invalid choice. Please try again.")
+        print("Invalid analysis option.")
+
+def main():
+    while True:
+        print("\n===== CryptoLabX Toolkit =====")
+        print("1. Encrypt")
+        print("2. Decrypt")
+        print("3. Attack")
+        print("4. Analyze")
+        print("5. Exit")
+
+        choice = input("Enter your choice: ")
+
+        if choice == "1":
+            logging.info("Selected Option: Encrypt")
+            print("Encrypt Module - Coming Soon")
+
+        elif choice == "2":
+            logging.info("Selected Option: Decrypt")
+            print("Decrypt Module - Coming Soon")
+
+        elif choice == "3":
+            logging.info("Selected Option: Attack")
+            print("Attack Module - Coming Soon")
+
+        elif choice == "4":
+            logging.info("Selected Option: Analyze")
+            analyze_menu()
+        elif choice == "5":
+            logging.info("Selected Option: Exit")
+            print("Thank you for using CryptoLabX.")
+            break
+
+        else:
+            print("Invalid choice. Please try again.")
+
+if __name__ == "__main__":
+    main()
+

@@ -1,0 +1,38 @@
+CryptoLabX - Lab 7: OS RNG Evaluation Results Summary
+Generated on: 2026-10-29 11:30:32
+Team: Yashwant Gour (2024ucp1732), Kunal Sachan (2024ucp1547)
+================================================================================
+
+DATASET: urandom_1mb.bin
+--------------------------------------------------
+Bytes: 1,048,576 | Bits: 8,388,608
+Shannon Entropy: 7.999842 / 8.000000
+Chi-Square: 229.71 (df=255, p-value=0.870661) -> PASS (Uniform)
+Monobit Test: 1s=4,193,332, 0s=4,195,276, pi=0.499884, p=0.502094 -> PASS (Random)
+Runs Test: V_obs=4,196,239, p=0.181439 -> PASS (Random)
+Serial Correlation: r1=-0.000515 -> PASS (Uncorrelated)
+2-Byte Patterns: 65522/65536 (99.98%)
+4-Byte Collisions: 9 (Theoretical: ~8.00)
+
+DATASET: openssl_1mb.bin
+--------------------------------------------------
+Bytes: 1,048,576 | Bits: 8,388,608
+Shannon Entropy: 7.999813 / 8.000000
+Chi-Square: 271.38 (df=255, p-value=0.229800) -> PASS (Uniform)
+Monobit Test: 1s=4,193,740, 0s=4,194,868, pi=0.499933, p=0.696935 -> PASS (Random)
+Runs Test: V_obs=4,192,937, p=0.345217 -> PASS (Random)
+Serial Correlation: r1=0.000228 -> PASS (Uncorrelated)
+2-Byte Patterns: 65518/65536 (99.97%)
+4-Byte Collisions: 6 (Theoretical: ~8.00)
+
+DATASET: windows_cng_1mb.bin
+--------------------------------------------------
+Bytes: 1,048,576 | Bits: 8,388,608
+Shannon Entropy: 7.999847 / 8.000000
+Chi-Square: 222.00 (df=255, p-value=0.933120) -> PASS (Uniform)
+Monobit Test: 1s=4,194,430, 0s=4,194,178, pi=0.500015, p=0.930666 -> PASS (Random)
+Runs Test: V_obs=4,193,158, p=0.428740 -> PASS (Random)
+Serial Correlation: r1=-0.001797 -> PASS (Uncorrelated)
+2-Byte Patterns: 65515/65536 (99.97%)
+4-Byte Collisions: 9 (Theoretical: ~8.00)
+
