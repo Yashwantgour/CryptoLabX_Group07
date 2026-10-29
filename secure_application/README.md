@@ -1,39 +1,35 @@
-# Group 7 — kunak Work
+# Secure Application: Student Portal (Group 07)
 
-This archive contains the Mac-side security/testing/documentation
-work for the Group 7 Student Portal.
+This directory contains the secure coding laboratory application for Group 07.
 
-## Ownership
+## Team Members
+- Yashwant Gour (`2024ucp1732`)
+- Kunal Sachan (`2024ucp1547`)
 
-Primary owner: kunal
+## Application Overview
+A console-based Python application that simulates core Student Portal functionality while demonstrating three key security vulnerabilities:
+1. **SQL Injection (SQLi)** in course search and authentication queries.
+2. **Insecure Direct Object Reference (IDOR)** in student profile and grade viewing.
+3. **Broken Access Control** in administrative grade-modification functions.
 
-- Security tests
-- XSS testing documentation
-- IDOR testing documentation
-- SAST setup
-- Reports
-- Screenshot organization
-
-The Windows teammate owns the core application files under `src/`.
-
-## Important
-
-Before pushing, pull the latest `student-portal` branch so these files
-are merged with the teammate's current application.
-
-## Recommended workflow
-
-```bash
-git checkout student-portal
-git pull origin student-portal
-
-# Copy/merge these files into secure_application/
-
-git status
-git add .gitignore testcases reports sast screenshots outputs README_mac_student.md
-git commit -m "Add security tests SAST and assessment reports"
-git pull --rebase origin student-portal
-git push origin student-portal
+## Directory Structure
+```
+secure_application/
+├── src/
+│   ├── app.py              # Main terminal application logic
+│   └── database.py         # SQLite database initialization & queries
+├── sast/
+│   ├── vulnerable.cpp      # SAST testing target (Flawfinder)
+│   ├── sast_lab_log.txt    # Flawfinder execution log
+│   └── README.md           # SAST report & remediation details
+├── reports/                # Security assessment & testing reports
+├── screenshots/            # Terminal session evidence
+├── outputs/                # Execution outputs & logs
+├── crypto/                 # Cryptographic routines
+└── testcases/              # Security exploit payloads & test cases
 ```
 
-Do not commit `.venv/`, local SQLite databases, or generated SAST JSON.
+## How to Run
+```bash
+python3 src/app.py
+```

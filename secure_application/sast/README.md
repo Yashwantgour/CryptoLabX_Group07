@@ -8,8 +8,8 @@
   ```bash
   python3 -m pip install flawfinder --user
   ```
-- **Installation or configuration problems encountered**: Flawfinder was installed in a directory (`/Users/kunalsachan/Library/Python/3.9/bin`) that was not in the system's `PATH`.
-- **How each problem was resolved**: Rather than modifying the system `PATH`, the tool was invoked using its absolute path (`/Users/kunalsachan/Library/Python/3.9/bin/flawfinder`).
+- **Installation or configuration problems encountered**: Flawfinder CLI was installed in a user binary directory (`~/Library/Python/3.9/bin` or `~/.local/bin`) that was not in the system's default `PATH`.
+- **How each problem was resolved**: Flawfinder was invoked using its direct binary path or through Python module execution (`python3 -m flawfinder`).
 
 ## Program Creation
 A small program `vulnerable.cpp` was created containing:

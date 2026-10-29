@@ -25,7 +25,8 @@
 - [x] Lab 4: Cryptanalysis of Shift Cipher
 - [x] Lab 5: Monoalphabetic Substitution Cipher and Cryptanalysis (C++)
 - [x] Lab 6: Cryptanalysis of Vigenère Cipher
-- [x] Lab 7: OS Random-Number Generation (RNG) Evaluation
+- [x] Lab 7: Padding Oracle Attack
+- [x] Lab 8: OS Random-Number Generation (RNG) Evaluation
 
 ## Repository Structure
 ```
