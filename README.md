@@ -27,6 +27,7 @@
 - [x] Lab 6: Cryptanalysis of Vigenère Cipher
 - [x] Lab 7: Padding Oracle Attack
 - [x] Lab 8: OS Random-Number Generation (RNG) Evaluation
+- [x] Lab 9: Cryptographic Prime Generation Using Miller–Rabin
 
 ## Repository Structure
 ```
@@ -34,6 +35,8 @@ CryptoLabX/
 ├── classical/
 ├── modern/
 ├── hashing/
+├── math/
+│   └── prime_generation/
 ├── attacks/
 ├── analysis/
 ├── docs/

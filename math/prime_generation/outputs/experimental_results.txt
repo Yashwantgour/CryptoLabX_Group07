@@ -1,0 +1,51 @@
+CryptoLabX - Lab Assignment: Cryptographic Prime Generation Using Miller-Rabin
+Author: Kunal Sachan (2024ucp1547@mnit.ac.in)
+Team: Group 07 (Kunal Sachan, Yashwant Gour)
+Generated at: 2026-10-29 11:55:07
+
+==============================================================================
+ EXPERIMENTAL RESULTS: 512-BIT MILLER-RABIN PRIME GENERATION
+==============================================================================
+ Parameter                           | Value
+------------------------------------------------------------------------------
+ Assigned bit length                 | 512 bits
+ Generated prime candidate (Decimal) | 7855342889084485970064689556357049172967106163340113850932362847137313673009891506764439218973301392637769667249499158632930629413202301520934805603001743
+ Generated prime candidate (Hex)     | 0x95fc1dc0d1030ccc1725c38bf1b0755d10744d0a9669b6cba837131a3b1e009d4f2cc619eb67cb80b1f0c4e8ff687eafc83b5c36224f67d2e983d4ded6eea58f
+ Actual bit length of the candidate  | 512 bits
+ Number of candidates tested         | 129
+ Number of Miller–Rabin rounds       | 40 rounds
+ Total execution time                | 0.0272 seconds
+==============================================================================
+
+==============================================================================
+ VERIFICATION REPORT
+==============================================================================
+ 1. EXACT BIT-LENGTH VERIFICATION:
+    - Assigned Bit Length : 512 bits
+    - Actual Bit Length   : 512 bits
+    - Lower Bound (2^511) : 6703903964971298549787012499102923063739682910296196688861780721860882015036773488400937149083451713845015929093243025426876941405973284973216824503042048
+    - Candidate (p)       : 7855342889084485970064689556357049172967106163340113850932362847137313673009891506764439218973301392637769667249499158632930629413202301520934805603001743
+    - Upper Bound (2^512) : 13407807929942597099574024998205846127479365820592393377723561443721764030073546976801874298166903427690031858186486050853753882811946569946433649006084095
+    - Condition Check     : 2^511 <= p < 2^512 -> [PASSED]
+    - Parity Check (p % 2): 1 (Strictly Odd) -> [PASSED]
+------------------------------------------------------------------------------
+ 2. SPECIFIED BASES MILLER-RABIN VERIFICATION:
+    - Base a = 2  : PASSED (Probable Prime)
+    - Base a = 3  : PASSED (Probable Prime)
+    - Base a = 5  : PASSED (Probable Prime)
+    - Base a = 7  : PASSED (Probable Prime)
+    - Base a = 11 : PASSED (Probable Prime)
+    - Base a = 13 : PASSED (Probable Prime)
+    - Base a = 17 : PASSED (Probable Prime)
+    - Base a = 19 : PASSED (Probable Prime)
+    - Base a = 23 : PASSED (Probable Prime)
+    - Base a = 29 : PASSED (Probable Prime)
+    - Base a = 31 : PASSED (Probable Prime)
+    - Base a = 37 : PASSED (Probable Prime)
+------------------------------------------------------------------------------
+ 3. INDEPENDENT PRIMALITY VERIFICATION:
+    - Method A (OpenSSL Crypto Library) : [PASSED - PRIME]
+      Details: OpenSSL CLI verified: '95FC1DC0D1030CCC1725C38BF1B0755D10744D0A9669B6CBA837131A3B1E009D4F2CC619EB67CB80B1F0C4E8FF687EAFC83B5C36224F67D2E983D4DED6EEA58F (95fc1dc0d1030ccc1725c38bf1b0755d10744d0a9669b6cba837131a3b1e009d4f2cc619eb67cb80b1f0c4e8ff687eafc83b5c36224f67d2e983d4ded6eea58f) is prime'
+    - Method B (Baillie-PSW / Lucas Test): [PASSED - PRIME]
+    - Method C (Fermat Primality Test)  : [PASSED] a^(p-1) == 1 (mod p) for all tested bases
+==============================================================================
