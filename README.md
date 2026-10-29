@@ -26,8 +26,8 @@
 - [x] Lab 5: Monoalphabetic Substitution Cipher and Cryptanalysis (C++)
 - [x] Lab 6: Cryptanalysis of Vigenère Cipher
 - [x] Lab 7: Padding Oracle Attack
-- [x] Lab 8: OS Random-Number Generation (RNG) Evaluation
-- [x] Lab 9: Cryptographic Prime Generation Using Miller–Rabin
+- [x] Lab 8: Cryptographic Prime Generation Using Miller–Rabin
+- [x] Lab 9: OS Random-Number Generation (RNG) Evaluation
 
 ## Repository Structure
 ```
