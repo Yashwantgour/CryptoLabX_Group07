@@ -28,6 +28,7 @@
 - [x] Lab 7: Padding Oracle Attack
 - [x] Lab 8: Cryptographic Prime Generation Using Miller–Rabin
 - [x] Lab 9: OS Random-Number Generation (RNG) Evaluation
+- [x] Lab 10: MT19937 Stream Cipher and Predictable Token Attack
 
 ## Repository Structure
 ```
@@ -38,7 +39,17 @@ CryptoLabX/
 ├── math/
 │   └── prime_generation/
 ├── attacks/
+│   ├── mt19937_stream_cipher/
+│   │   ├── src/
+│   │   ├── outputs/
+│   │   ├── assignment10_notebook.ipynb
+│   │   └── README.md
+│   ├── monoalphabetic_substitution_attack/
+│   ├── shift_cipher_attack/
+│   ├── vigenere_cipher_attack/
+│   └── padding_oracle.py
 ├── analysis/
+│   └── rng_evaluation/
 ├── docs/
 ├── secure_application/
 │   ├── src/

@@ -1,0 +1,30 @@
+========================================================================
+PART B: PREDICTABLE PASSWORD RESET TOKENS & TIMESTAMP ATTACK
+========================================================================
+
+[Step 6-8] Simulated Application Token Generation...
+  Recorded Timestamp (T) : 1793858919 (Unix Epoch Seconds)
+  Formatted Date / Time  : 2026-11-05 06:08:39 UTC
+  PRNG Seed Used         : 1793858919
+  Generated Token (Hex)  : ae26556875c584ce5446c93983f56ca5
+  Token Byte Length      : 16 bytes (128 bits)
+
+[Step 9 & 10] Attacker Intercepts Token and Initiates Interval Attack...
+  Intercepted Token      : ae26556875c584ce5446c93983f56ca5
+  Attacker Time Reference: 1793858961
+  Search Interval Bounds : [1793858661, 1793859261]
+  Search Interval Radius : +/- 300 seconds
+  Total Candidates in Win: 601 candidate seeds
+
+[Step 11] Attack Results & Regeneration Verification...
+  Candidates Tested      : 259 / 601
+  Elapsed Search Time    : 3.264 ms (0.003264 seconds)
+  Cracking Throughput    : 79,357 candidate tokens/second
+  [+] Recovered Timestamp: 1793858919
+  [+] Actual Timestamp   : 1793858919
+  Regenerated Token (Hex): ae26556875c584ce5446c93983f56ca5
+  Exact Byte-for-Byte    : VERIFIED MATCH
+
+========================================================================
+PART B RESULT: SUCCESS
+========================================================================

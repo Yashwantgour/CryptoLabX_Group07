@@ -1,0 +1,74 @@
+================================================================================
+      CRYPTOGRAPHY LAB ASSIGNMENT 10: MT19937 PRNG CRYPTANALYSIS
+                  Group 07 - MNIT Jaipur (22CPP307)
+  Team: Kunal Sachan (2024ucp1547) & Yashwant Gour (2024ucp1732)
+================================================================================
+
+========================================================================
+PART A: MT19937 STREAM CIPHER & WEAK 16-BIT SEED RECOVERY ATTACK
+========================================================================
+
+[Step 1 & 2] Verifying Symmetric Encryption / Decryption...
+  Test Message       : CryptoLabX Group 07: Cryptographic Stream Cipher Verification Message 2026!
+  Test Seed          : 0xC001 (49153)
+  Ciphertext (Hex)   : f8b68e06a2d8ab94b76f2bd080a0b094405c7d22e9cc96427f10ece313c127b0... (75 bytes)
+  Decrypted Message  : CryptoLabX Group 07: Cryptographic Stream Cipher Verification Message 2026!
+  [+] Status: Encryption and Decryption verified successfully!
+
+[Step 3] Generating Plaintext with Random Prefix (5-20 chars) + 14 'A's...
+  Random Prefix      : b'uPmw9boqlEUkjXv8Zhne' (length = 20)
+  Known Suffix       : b'AAAAAAAAAAAAAA' (length = 14)
+  Full Plaintext     : b'uPmw9boqlEUkjXv8ZhneAAAAAAAAAAAAAA' (total length = 34)
+  Plaintext (Hex)    : 75506d7739626f716c45556b6a5876385a686e654141414141414141414141414141
+  Chosen 16-bit Seed : 0xB58E (46478)
+  Ciphertext (Hex)   : a21dc624ee08b6ac8224b9963819e4fc1106e4fe7931b8797c1782302a79ca1793f7
+
+[Step 4] Launching 16-Bit Seed Brute-Force Attack...
+  Search Space Size  : 2^16 = 65,536 candidate seeds (0x0000 - 0xFFFF)
+  Target Signature   : 14 consecutive 'A' bytes (b'AAAAAAAAAAAAAA')
+  Seeds Tested       : 46,479 / 65,536
+  Time Elapsed       : 0.6542 seconds
+  Search Rate        : 71,042 seeds/second
+
+[Step 5] Verifying Recovered Seed and Decrypted Plaintext...
+  [+] Recovered Seed : 0xB58E (46478)
+  [+] Expected Seed  : 0xB58E (46478)
+  [+] Recovered Text : b'uPmw9boqlEUkjXv8ZhneAAAAAAAAAAAAAA'
+  - Seed Match Check          : PASSED
+  - Plaintext Match Check     : PASSED
+  - Known Sequence Presence   : PASSED
+========================================================================
+PART A RESULT: SUCCESS
+========================================================================
+
+
+========================================================================
+PART B: PREDICTABLE PASSWORD RESET TOKENS & TIMESTAMP ATTACK
+========================================================================
+
+[Step 6-8] Simulated Application Token Generation...
+  Recorded Timestamp (T) : 1793859110 (Unix Epoch Seconds)
+  Formatted Date / Time  : 2026-11-05 06:11:50 UTC
+  PRNG Seed Used         : 1793859110
+  Generated Token (Hex)  : 0a46a21e626f53964efd072151f7243e
+  Token Byte Length      : 16 bytes (128 bits)
+
+[Step 9 & 10] Attacker Intercepts Token and Initiates Interval Attack...
+  Intercepted Token      : 0a46a21e626f53964efd072151f7243e
+  Attacker Time Reference: 1793859152
+  Search Interval Bounds : [1793858852, 1793859452]
+  Search Interval Radius : +/- 300 seconds
+  Total Candidates in Win: 601 candidate seeds
+
+[Step 11] Attack Results & Regeneration Verification...
+  Candidates Tested      : 259 / 601
+  Elapsed Search Time    : 2.708 ms (0.002708 seconds)
+  Cracking Throughput    : 95,640 candidate tokens/second
+  [+] Recovered Timestamp: 1793859110
+  [+] Actual Timestamp   : 1793859110
+  Regenerated Token (Hex): 0a46a21e626f53964efd072151f7243e
+  Exact Byte-for-Byte    : VERIFIED MATCH
+
+========================================================================
+PART B RESULT: SUCCESS
+========================================================================

@@ -67,6 +67,28 @@ def analyze_menu():
     else:
         print("Invalid analysis option.")
 
+def attack_menu():
+    print("\n===== Attack Module =====")
+    print("1. MT19937 Stream Cipher & Predictable Token Attack (Lab 10)")
+    print("2. Padding Oracle Attack (Lab 7)")
+    print("3. Monoalphabetic Substitution Attack (Lab 5)")
+    print("4. Shift Cipher Attack (Lab 4)")
+    sub_choice = input("Enter choice (1-4): ").strip()
+    if sub_choice == "1":
+        import subprocess
+        script_path = os.path.join("attacks", "mt19937_stream_cipher", "src", "run_assignment10.py")
+        subprocess.run([sys.executable, script_path])
+    elif sub_choice == "2":
+        import subprocess
+        script_path = os.path.join("attacks", "padding_oracle.py")
+        subprocess.run([sys.executable, script_path])
+    elif sub_choice == "3":
+        print("Monoalphabetic Substitution Attack available in attacks/monoalphabetic_substitution_attack/")
+    elif sub_choice == "4":
+        print("Shift Cipher Attack available in attacks/shift_cipher_attack/")
+    else:
+        print("Invalid attack option.")
+
 def main():
     while True:
         print("\n===== CryptoLabX Toolkit =====")
@@ -89,7 +111,7 @@ def main():
 
         elif choice == "3":
             logging.info("Selected Option: Attack")
-            print("Attack Module - Coming Soon")
+            attack_menu()
 
         elif choice == "4":
             logging.info("Selected Option: Analyze")
