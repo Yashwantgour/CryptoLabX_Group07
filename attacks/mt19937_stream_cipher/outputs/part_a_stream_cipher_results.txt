@@ -1,0 +1,36 @@
+========================================================================
+PART A: MT19937 STREAM CIPHER & WEAK 16-BIT SEED RECOVERY ATTACK
+========================================================================
+
+[Step 1 & 2] Verifying Symmetric Encryption / Decryption...
+  Test Message       : CryptoLabX Group 07: Cryptographic Stream Cipher Verification Message 2026!
+  Test Seed          : 0xC001 (49153)
+  Ciphertext (Hex)   : f8b68e06a2d8ab94b76f2bd080a0b094405c7d22e9cc96427f10ece313c127b0... (75 bytes)
+  Decrypted Message  : CryptoLabX Group 07: Cryptographic Stream Cipher Verification Message 2026!
+  [+] Status: Encryption and Decryption verified successfully!
+
+[Step 3] Generating Plaintext with Random Prefix (5-20 chars) + 14 'A's...
+  Random Prefix      : b';%ML|y%5k>' (length = 10)
+  Known Suffix       : b'AAAAAAAAAAAAAA' (length = 14)
+  Full Plaintext     : b';%ML|y%5k>AAAAAAAAAAAAAA' (total length = 24)
+  Plaintext (Hex)    : 3b254d4c7c7925356b3e4141414141414141414141414141
+  Chosen 16-bit Seed : 0xC389 (50057)
+  Ciphertext (Hex)   : 3f0d3fa59823366217e08a2b3faa6c7fd5af73065ac5da5c
+
+[Step 4] Launching 16-Bit Seed Brute-Force Attack...
+  Search Space Size  : 2^16 = 65,536 candidate seeds (0x0000 - 0xFFFF)
+  Target Signature   : 14 consecutive 'A' bytes (b'AAAAAAAAAAAAAA')
+  Seeds Tested       : 50,058 / 65,536
+  Time Elapsed       : 0.5887 seconds
+  Search Rate        : 85,031 seeds/second
+
+[Step 5] Verifying Recovered Seed and Decrypted Plaintext...
+  [+] Recovered Seed : 0xC389 (50057)
+  [+] Expected Seed  : 0xC389 (50057)
+  [+] Recovered Text : b';%ML|y%5k>AAAAAAAAAAAAAA'
+  - Seed Match Check          : PASSED
+  - Plaintext Match Check     : PASSED
+  - Known Sequence Presence   : PASSED
+========================================================================
+PART A RESULT: SUCCESS
+========================================================================
